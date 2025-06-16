@@ -56,7 +56,7 @@ if [[ $- == *i* ]]; then  # Only run in interactive shells
 
   fzf-history-widget() {
     local selected
-    selected=$(fc -rl 1 | awk '{$1=""; print substr($0,2)}' | fzf --exact --tac --no-sort --reverse --height 40% --border --prompt='History> ')
+    selected=$(fc -rl 1 | awk '{$1=""; print substr($0,2)}' | fzf --exact --no-sort --reverse --height 40% --border --prompt='History> ')
     if [[ -n $selected ]]; then
       LBUFFER=$selected
       zle redisplay
