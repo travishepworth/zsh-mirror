@@ -2,11 +2,11 @@
 # Completion Settings
 # ─────────────────────────────────────────────────────────────
 autoload -Uz compinit
-compinit
+_zcompcache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
+mkdir -p "${_zcompcache%/}"
+compinit -d "${_zcompcache}" -C
 
 REPORTTIME=1
-
-# Enable menu-based selection on tab completion
 
 # zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'l:|=* r:|=*'

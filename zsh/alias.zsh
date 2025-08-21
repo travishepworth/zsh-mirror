@@ -3,5 +3,11 @@
 # ─────────────────────────────────────────────────────────────
 
 alias ff='fastfetch'
-alias kc='kubectl'
 alias ssh='kitten ssh'
+
+# kubernetes aliases
+alias kc='kubectl'
+alias kctx='kubectl config use-context'
+alias kns='kubectl config set-context --current --namespace'
+
+alias cat='bat --paging=never --style=plain --color=always'

@@ -1,21 +1,10 @@
 # ─────────────────────────────────────────────────────────────
 # History Settings
 # ─────────────────────────────────────────────────────────────
-export HISTFILE=~/.zsh_history
-export HISTSIZE=10000
-export SAVEHIST=10000
-
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
-
-# History settings
 HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000
 
-# History options
 setopt EXTENDED_HISTORY          # Write timestamp to history
 setopt INC_APPEND_HISTORY        # Write to history immediately
 setopt SHARE_HISTORY             # Share history between sessions
