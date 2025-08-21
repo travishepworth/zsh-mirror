@@ -2,6 +2,5 @@
 # Aliases
 # ─────────────────────────────────────────────────────────────
 
-alias ssh='kitten ssh'
 alias ff='fastfetch'
 alias kc='kubectl'
