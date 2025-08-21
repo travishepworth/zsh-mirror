@@ -4,3 +4,4 @@
 
 alias ff='fastfetch'
 alias kc='kubectl'
+alias ssh='kitten ssh'
