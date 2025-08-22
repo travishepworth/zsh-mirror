@@ -12,8 +12,8 @@ function ls() {
 # ─────────────────────────────────────────────────────────────
 
 # source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh  # must be last
+source $CONFIG_DIR/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $CONFIG_DIR/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh  # must be last
 
 # ─────────────────────────────────────────────────────────────
 # Prompt (Pure)
