@@ -51,7 +51,7 @@ kube_prompt_info() {
 
   local -a info_parts
   info_parts=(${(s: :)kube_info})
-  local user="${info_parts[2]}"
+  local user="${info_parts[2]%%/*}"
   local namespace="${info_parts[3]:-default}"
   
   # Update the cache and the final variable

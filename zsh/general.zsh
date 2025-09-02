@@ -24,7 +24,7 @@ _KUBE_ACTIVATED=false
 
 detect_kubectl_usage() {
     # Check if the last command contained kubectl or kc
-    if [[ "$1" =~ ^(kubectl|kc)([[:space:]]|$) ]]; then
+    if [[ "$1" =~ ^(kubectl|kc|oc)([[:space:]]|$) ]]; then
         _KUBE_ACTIVATED=true
     elif [[ "$1" =~ ^(ff)([[:space:]]|$) ]]; then
         _KUBE_ACTIVATED=false
