@@ -9,5 +9,5 @@ bindkey '^[OH' beginning-of-line     # Kitty/VTE alternative Home
 bindkey '^[OF' end-of-line           # Kitty/VTE alternative End
 bindkey '^[[3~' delete-char
 
-bindkey '^[[A' history-beginning-search-backward
-bindkey '^[[B' history-beginning-search-forward
+# bindkey '^[[A' history-beginning-search-backward
+# bindkey '^[[B' history-beginning-search-forward
