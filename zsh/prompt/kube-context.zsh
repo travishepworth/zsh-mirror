@@ -41,7 +41,7 @@ kube_prompt_info() {
     return
   fi
   
-  local kube_info=$(kubectl config view --minify --output 'jsonpath={.current-context} {.contexts[0].context.user} {.contexts[0].context.namespace}')
+  local kube_info=$(kubectl config view --minify --output 'jsonpath={.contexts[0].context.cluster} {.contexts[0].context.user} {.contexts[0].context.namespace}')
   
   if [[ -z "$kube_info" ]]; then
     _KUBE_PROMPT_CACHED_VAL=""
@@ -51,27 +51,12 @@ kube_prompt_info() {
 
   local -a info_parts
   info_parts=(${(s: :)kube_info})
+  local cluster="${info_parts[1]#*-}"
+  local cluster="${cluster%%-*}"
   local user="${info_parts[2]%%/*}"
   local namespace="${info_parts[3]:-default}"
   
   # Update the cache and the final variable
-  _KUBE_PROMPT_CACHED_VAL="%F{cyan}( ${user}:${namespace})%f"
+  _KUBE_PROMPT_CACHED_VAL="%F{cyan}( ${cluster}:${user}:${namespace})%f"
   KUBE_PROMPT=$_KUBE_PROMPT_CACHED_VAL
-
-  # append \n to kube prompt
-  # KUBE_PROMPT="${KUBE_PROMPT}"$'\n'
 }
-
-# detect_kubectl_usage() {
-#     # Check if the last command contained kubectl or kc
-#     if [[ "$1" =~ ^(kubectl|kc)([[:space:]]|$) ]]; then
-#         _KUBE_ACTIVATED=true
-#     fi
-# }
-
-# stop_kubectl_usage() {
-#     if [[ ! "$1" =~ ^(zshkcq)([[:space:]]|$) ]]; then
-#         _KUBE_ACTIVATED=false
-#     fi
-#     _KUBE_ACTIVATED=false
-# }
