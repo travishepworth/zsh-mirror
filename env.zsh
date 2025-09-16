@@ -28,3 +28,5 @@ export VISUAL=nvim
 export PAGER=less
 
 export GREP_OPTIONS='--color=auto'
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"

@@ -4,6 +4,7 @@
 
 export PATH="$CONFIG_DIR/zsh/scripts:$PATH"
 function ls() {
+  echo "$@"
   $CONFIG_DIR/zsh/scripts/eza-wrapper.sh "$@"
 }
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # FZF App Launcher
 # Usage: kitty -e /path/to/this/script
