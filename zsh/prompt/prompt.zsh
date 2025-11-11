@@ -1,42 +1,34 @@
 #!/usr/bin/env zsh
+# prompt.zsh - Pure prompt with Arch updates prepended and Kube context injected
 
-PROMPT_DIR="$CONFIG_DIR/zsh/prompt"
-source $PROMPT_DIR/kube-context.zsh
-source $PROMPT_DIR/git.zsh
+# Source required modules
+source "${0:A:h}/arch-updates.zsh"
+source "${0:A:h}/kube-context.zsh"
 
-prompt_directory_path() {
-    # echo "%F{yellow}%~%f"
-    echo "%F{blue}%~%f %F{cyan}➜%f "
+# --- PURE PROMPT SETUP ---
+fpath+=($CONFIG_DIR/zsh/pure)
+autoload -U promptinit; promptinit
+prompt pure
+zstyle :prompt:pure:git:stash show yes
+
+# --- KUBERNETES ACTIVATION DETECTION ---
+_KUBE_ACTIVATED=false
+
+detect_kubectl_usage() {
+    if [[ "$1" =~ ^(kubectl|kc|oc|kctx)([[:space:]]|$) ]]; then
+        _KUBE_ACTIVATED=true
+    elif [[ "$1" =~ ^(ff)([[:space:]]|$) ]]; then
+        _KUBE_ACTIVATED=false
+    fi
 }
 
-prompt_symbol() {
-    echo "-->"
-}
+# --- HOOKS ---
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd kube_prompt_info
+add-zsh-hook preexec detect_kubectl_usage
 
-build_prompt() {
-    local kubernetes_info="$(echo "$KUBE_PROMPT")"
-    local directory_path="$(prompt_directory_path)"
-    local git_info="$(echo "$GIT_PROMPT")"
-    local symbol="$(prompt_symbol)"
-    
-    local line1=" $kubernetes_info"
-    local line2=" $directory_path $git_info"
-    local line3=" $symbol "
-    
-    PROMPT="$line1
-$line2
-$line3"
-}
+# --- CUSTOMIZE PROMPT ---
+setopt prompt_subst
 
-setup_prompt() {
-    setopt PROMPT_SUBST
-    
-    autoload -Uz add-zsh-hook
-    add-zsh-hook precmd kube_prompt_info
-    add-zsh-hook precmd git_prompt_update
-    add-zsh-hook precmd build_prompt
-    
-    build_prompt
-}
-
-setup_prompt
+# Prepend arch updates to entire prompt, inject kube before ❯
+PROMPT='$(arch_upd_prompt_segment)'$'\n''${KUBE_PROMPT}'$PROMPT

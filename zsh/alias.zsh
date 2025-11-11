@@ -3,7 +3,7 @@
 # ─────────────────────────────────────────────────────────────
 
 alias ff='fastfetch'
-alias ssh='kitten ssh'
+alias kssh='kitten ssh'
 
 # kubernetes aliases
 alias kc='kubectl'
