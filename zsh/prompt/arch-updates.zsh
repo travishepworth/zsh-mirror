@@ -74,7 +74,7 @@ arch_upd_prompt_segment() {
     segs+=("%F{${ARCH_UPD_PROMPT_THEME[color_aur]}}${ARCH_UPD_PROMPT_THEME[icon_aur]}%f %F{${ARCH_UPD_PROMPT_THEME[color_count]}}${_ARCH_UPD_AUR_COUNT}%f")
   fi
   if (( ${#segs[@]} )); then
-    pr="\n%F{${ARCH_UPD_PROMPT_THEME[color_main]}}${ARCH_UPD_PROMPT_THEME[icon_main]}%f ${(j:${ARCH_UPD_PROMPT_THEME[sep]}:)segs}"
+    pr="\n%F{${ARCH_UPD_PROMPT_THEME[color_main]}}${ARCH_UPD_PROMPT_THEME[icon_main]}%f $(IFS="${ARCH_UPD_PROMPT_THEME[sep]}"; echo "${segs[*]}")"
     if (( _ARCH_UPD_WORKER_PID > 0 )) && kill -0 "$_ARCH_UPD_WORKER_PID" >/dev/null 2>&1; then pr+=" %F{${ARCH_UPD_PROMPT_THEME[color_dim]}}${_ARCH_UPD_STATUS}%f"; fi
   elif (( _ARCH_UPD_WORKER_PID > 0 )) && kill -0 "$_ARCH_UPD_WORKER_PID" >/dev/null 2>&1; then pr="%F{${ARCH_UPD_PROMPT_THEME[color_dim]}}${_ARCH_UPD_STATUS}%f";
   fi
