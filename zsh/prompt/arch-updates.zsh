@@ -59,7 +59,8 @@ _arch_upd_spawn_worker() {
   setopt localoptions nomonitor nonotify
   if (( _ARCH_UPD_WORKER_PID > 0 )) && kill -0 "$_ARCH_UPD_WORKER_PID" >/dev/null 2>&1; then return; fi
   _ARCH_UPD_STATUS="."
-  ( emulate -L zsh; local r a; r=$(_arch_upd_count_repo); a=$(_arch_upd_count_aur); _arch_upd_cache_save "$EPOCHSECONDS" "$r" "$a" ) >/dev/null 2>&1 &!
+  # ( emulate -L zsh; local r a; r=$(_arch_upd_count_repo); a=$(_arch_upd_count_aur); _arch_upd_cache_save "$EPOCHSECONDS" "$r" "$a" ) >/dev/null 2>&1 &!
+  ( emulate -L zsh; local r a; r=$(_arch_upd_count_repo); a=$(_arch_upd_count_aur); _arch_upd_cache_save "$(date +%s)" "$r" "$a" ) >/dev/null 2>&1 &!
   _ARCH_UPD_WORKER_PID=$!
 }
 
@@ -73,7 +74,7 @@ arch_upd_prompt_segment() {
     segs+=("%F{${ARCH_UPD_PROMPT_THEME[color_aur]}}${ARCH_UPD_PROMPT_THEME[icon_aur]}%f %F{${ARCH_UPD_PROMPT_THEME[color_count]}}${_ARCH_UPD_AUR_COUNT}%f")
   fi
   if (( ${#segs[@]} )); then
-    pr="%F{${ARCH_UPD_PROMPT_THEME[color_main]}}${ARCH_UPD_PROMPT_THEME[icon_main]}%f ${(j:${ARCH_UPD_PROMPT_THEME[sep]}:)segs}"
+    pr="\n%F{${ARCH_UPD_PROMPT_THEME[color_main]}}${ARCH_UPD_PROMPT_THEME[icon_main]}%f ${(j:${ARCH_UPD_PROMPT_THEME[sep]}:)segs}"
     if (( _ARCH_UPD_WORKER_PID > 0 )) && kill -0 "$_ARCH_UPD_WORKER_PID" >/dev/null 2>&1; then pr+=" %F{${ARCH_UPD_PROMPT_THEME[color_dim]}}${_ARCH_UPD_STATUS}%f"; fi
   elif (( _ARCH_UPD_WORKER_PID > 0 )) && kill -0 "$_ARCH_UPD_WORKER_PID" >/dev/null 2>&1; then pr="%F{${ARCH_UPD_PROMPT_THEME[color_dim]}}${_ARCH_UPD_STATUS}%f";
   fi
@@ -83,7 +84,8 @@ arch_upd_prompt_segment() {
 # --- Hook (fast) --------------------------------------------------------------
 _arch_upd_precmd() {
   _arch_upd_cache_load >/dev/null 2>&1
-  if (( EPOCHSECONDS - _ARCH_UPD_LAST_REFRESH >= ARCH_UPD_PROMPT_INTERVAL )); then _arch_upd_spawn_worker; fi
+  # if (( EPOCHSECONDS - _ARCH_UPD_LAST_REFRESH >= ARCH_UPD_PROMPT_INTERVAL )); then _arch_upd_spawn_worker; fi
+  if (( $(date +%s) - _ARCH_UPD_LAST_REFRESH >= ARCH_UPD_PROMPT_INTERVAL )); then _arch_upd_spawn_worker; fi
   if ! { (( _ARCH_UPD_WORKER_PID > 0 )) && kill -0 "$_ARCH_UPD_WORKER_PID" >/dev/null 2>&1; }; then
     _ARCH_UPD_STATUS=""; _ARCH_UPD_WORKER_PID=0; _arch_upd_cache_load >/dev/null 2>&1;
   fi
